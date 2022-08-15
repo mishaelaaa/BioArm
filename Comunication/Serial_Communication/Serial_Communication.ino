@@ -1,7 +1,7 @@
 #include <Servo.h>
 
 #define BAUD_RATE 115200
-#define INPUT_PIN A0
+#define INPUT_PIN 0
 
 int Value_EMG_PIN = 0;      // variable to store readed value of INPUT_PIN
 int Map_Value_EMG_PIN = 0;  // variable to store value after mapping of emg value
@@ -16,12 +16,15 @@ void setup()
 
 void loop() 
 {
-  float sensor_value = analogRead(INPUT_PIN);
+  Value_EMG_PIN = analogRead(INPUT_PIN);  
+  //Serial.print("Signal Value: "); 
+  Serial.println(Value_EMG_PIN);
+  //Serial.print('\n');
   
-  Map_Value_EMG_PIN = map(sensor_value, 0, 1023, 0, 180);
+  Map_Value_EMG_PIN = map(Value_EMG_PIN, 0, 1023, 0, 180);
   
   //Serial.print("Signal Value: ");   
-  Serial.println(sensor_value);
+  //Serial.println(sensor_value);
   //Serial.print("Map Value : ");     
   //Serial.println(Map_Value_EMG_PIN);
 

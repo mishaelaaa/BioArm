@@ -23,26 +23,28 @@ thePort = commports[usePort][0]
 print('using ', thePort, '\n')
 
 arduino_data = [] # declare a list
-# open serial port
-# device = serial.Serial(thePort, 115200)
+textfile = open("a_file.txt", "w") # declare file for writing
+
 device = serial.Serial()
 device.baudrate = 115200
 device.port = thePort
 device.open()
-# time.sleep(5)
-# device.reset_input_buffer()
-# input_data=device.readline()
 
 i = 0
 while (True):
     if device.isOpen():
         i += 1
-        # input_data=device.readline().strip().decode("utf-8")
         try:
             input_data = device.readline()
-            # print(input_data)
             if input_data:
                 arduino_data.append(input_data) # Append a data to your declared list
+                for input_data in arduino_data:
+                    # type : string
+                    textfile.write(str(input_data) + '\n')
+                    #   textfile.write(str(input_data).encode())
+                    #   TypeError: write() argument must be str, not bytes
+                    #textfile.write(input_data)
+                    #textfile.write("\n".encode("utf-8"))
                 print(input_data)
         except UnicodeDecodeError as e:
                 print(e)
@@ -50,4 +52,8 @@ while (True):
         except KeyboardInterrupt:
             print("\nexiting program ", i, " tests")
             device.close()
+            textfile.close()
+            print('Closed file')
             exit(0)
+
+
