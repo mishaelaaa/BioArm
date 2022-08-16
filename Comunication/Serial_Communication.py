@@ -1,8 +1,15 @@
-import time
+''''
+https://pythonforundergradengineers.com/python-arduino-potentiometer.html
+'''
 import serial
+import time
+import io
 import serial.tools.list_ports
+import matplotlib.pyplot as plt
+import cv2
+import imageio
 
-# Find the USB port we are on
+# Find the USB port
 commports = serial.tools.list_ports.comports()  # get possible ports
 numPorts = len(commports)
 if (numPorts == 0):
@@ -22,30 +29,30 @@ else:
 thePort = commports[usePort][0]
 print('using ', thePort, '\n')
 
-arduino_data = [] # declare a list
-textfile = open("a_file.txt", "w") # declare file for writing
-
 device = serial.Serial()
 device.baudrate = 115200
 device.port = thePort
 device.open()
 
+time.sleep(2)
+arduino_data = []  # declare a list
+#textfile = open("communication_file.txt", "w")  # declare file for writing
+textfile = open("communication_file_1.txt", "w")  # declare file for writing
+
 i = 0
-while (True):
+#while (True):
+for i in range(1500000):
+#for i in range(15000):
     if device.isOpen():
         i += 1
         try:
-            input_data = device.readline()
+            input_data = device.readline()  # to reading
             if input_data:
-                arduino_data.append(input_data) # Append a data to your declared list
-                for input_data in arduino_data:
-                    # type : string
-                    textfile.write(str(input_data) + '\n')
-                    #   textfile.write(str(input_data).encode())
-                    #   TypeError: write() argument must be str, not bytes
-                    #textfile.write(input_data)
-                    #textfile.write("\n".encode("utf-8"))
-                print(input_data)
+                string = input_data.decode()
+                num = int(string)
+                print(num)
+                arduino_data.append(num) # Append a data to your declared list
+                textfile.write(str(num) + '\n')
         except UnicodeDecodeError as e:
                 print(e)
                 print(input_data)
@@ -55,5 +62,15 @@ while (True):
             textfile.close()
             print('Closed file')
             exit(0)
-
-
+# build the plot
+data_file = plt.plot(arduino_data)
+plt.plot(arduino_data)
+plt.xlabel('Time')
+plt.ylabel('EMG Reading Data')
+plt.title('EMG Reading Data vs. Time')
+# Saving the figure.
+plt.savefig("Serial_Communication_img.jpg")
+# Saving figure by changing parameter values
+plt.savefig("Serial_Communication_img_1", facecolor='y', bbox_inches="tight",
+            pad_inches=0.3, transparent=True)
+plt.show()

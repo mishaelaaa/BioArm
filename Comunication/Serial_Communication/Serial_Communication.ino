@@ -17,15 +17,14 @@ void setup()
 void loop() 
 {
   Value_EMG_PIN = analogRead(INPUT_PIN);  
-  //Serial.print("Signal Value: "); 
-  Serial.println(Value_EMG_PIN);
-  //Serial.print('\n');
+  Map_Value_EMG_PIN = map(Value_EMG_PIN, 0, 1023, 0, 100);
   
-  Map_Value_EMG_PIN = map(Value_EMG_PIN, 0, 1023, 0, 180);
+  //Serial.print("Signal Value: "); 
+  //Serial.println(Value_EMG_PIN);
   
   //Serial.print("Signal Value: ");   
   //Serial.println(sensor_value);
+  
   //Serial.print("Map Value : ");     
-  //Serial.println(Map_Value_EMG_PIN);
-
+  Serial.println(Map_Value_EMG_PIN);
 }
