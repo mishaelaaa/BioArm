@@ -1,13 +1,17 @@
 ''''
 https://pythonforundergradengineers.com/python-arduino-potentiometer.html
 '''
-import serial
+
+''''
+timestamp_csv.py
+YOUR_CSV_FILE.csv
+'''
+
 import time
-import io
 import serial.tools.list_ports
 import matplotlib.pyplot as plt
-import cv2
-import imageio
+import csv
+from datetime import datetime
 
 # Find the USB port
 commports = serial.tools.list_ports.comports()  # get possible ports
@@ -36,8 +40,9 @@ device.open()
 
 time.sleep(2)
 arduino_data = []  # declare a list
-#textfile = open("communication_file.txt", "w")  # declare file for writing
-textfile = open("communication_file_1.txt", "w")  # declare file for writing
+# textfile = open("communication_file.txt", "w")    # declare file for writing
+# textfile = open("communication_file_1.txt", "w")  # declare file for writing
+cvsfile = open("communication_file_1.csv", "w")   # declare file for writing
 
 i = 0
 #while (True):
@@ -52,18 +57,18 @@ for i in range(1500000):
                 num = int(string)
                 print(num)
                 arduino_data.append(num) # Append a data to your declared list
-                textfile.write(str(num) + '\n')
+                # textfile.write(str(num) + '\n')
+                cvsfile.write(str(num) + '\n')
         except UnicodeDecodeError as e:
                 print(e)
                 print(input_data)
         except KeyboardInterrupt:
             print("\nexiting program ", i, " tests")
             device.close()
-            textfile.close()
+            # textfile.close()
+            cvsfile.close()
             print('Closed file')
             exit(0)
-# build the plot
-data_file = plt.plot(arduino_data)
 plt.plot(arduino_data)
 plt.xlabel('Time')
 plt.ylabel('EMG Reading Data')
