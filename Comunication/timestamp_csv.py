@@ -10,7 +10,7 @@ cvsfile = open("YOUR_CSV_FILE.csv", "w")  # declare file for writing
 
 
 # function to write in csv file
-def write_in_csv(rows):
+def write_in_csv(arduino_data):
     # Opening the CSV file in read and
     # write mode using the open() module
     with open(r'YOUR_CSV_FILE.csv', 'r+', newline='') as file:
@@ -19,13 +19,13 @@ def write_in_csv(rows):
 
         # Iterating over all the data in the rows
         # variable
-        for val in rows:
+        for val in arduino_data:
             # writing the data in csv file
             file_write.writerow(val)
 
 
 # list to store the values of the rows
-rows = []
+arduino_data = []  # declare a list
 
 # while loop to take
 # inputs from the user
@@ -50,7 +50,15 @@ while run != 'no':
     run = run.lower()
 
     # Adding the stored data in rows list
-    rows.append(val)
+    arduino_data.append(val)
 
 # Calling function to write in csv file
-write_in_csv(rows)
+write_in_csv(arduino_data)
+
+
+'''
+import pandas as pd
+
+read_file = pd.read_csv(r'communication_file_1.txt')
+read_file.to_csv(r'communication_file_1.csv', index=None)
+'''
