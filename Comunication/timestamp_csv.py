@@ -1,64 +1,42 @@
-''''
-da suzdam csv file ot input data ot Arduino i da mu importna w purvata kolona time
-'''
+import matplotlib.pyplot as plt
+import numpy as np
 
-# Importing required modules
-import csv
-from datetime import datetime
+cf_0 = np.genfromtxt('./data/communication_file_time_data.csv', delimiter=',', names=True)
+cf_1 = np.genfromtxt('./data/communication_file_time_data1.csv', delimiter=',', names=True)
+cf_2 = np.genfromtxt('./data/communication_file_time_data2.csv', delimiter=',', names=True)
+cf_3 = np.genfromtxt('./data/communication_file_time_data3.csv', delimiter=',', names=True)
+cf_4 = np.genfromtxt('./data/communication_file_time_data4.csv', delimiter=',', names=True)
+cf_5 = np.genfromtxt('./data/communication_file_time_data5.csv', delimiter=',', names=True)
 
-cvsfile = open("YOUR_CSV_FILE.csv", "w")  # declare file for writing
+plt.figure("cf_0")
+for col_name in cf_0.dtype.names:
+    plt.plot(cf_0[col_name], label=col_name)
+plt.savefig("./img/communication_file_time_data_0", transparent=True)
 
+plt.figure("cf_1")
+for col_name in cf_1.dtype.names:
+    plt.plot(cf_1[col_name], label=col_name)
+plt.savefig("./img/communication_file_time_data_1", transparent=True)
 
-# function to write in csv file
-def write_in_csv(arduino_data):
-    # Opening the CSV file in read and
-    # write mode using the open() module
-    with open(r'YOUR_CSV_FILE.csv', 'r+', newline='') as file:
-        # creating the csv writer
-        file_write = csv.writer(file)
+plt.figure("cf_2")
+for col_name in cf_2.dtype.names:
+    plt.plot(cf_2[col_name], label=col_name)
+plt.savefig("./img/communication_file_time_data_2", transparent=True)
 
-        # Iterating over all the data in the rows
-        # variable
-        for val in arduino_data:
-            # writing the data in csv file
-            file_write.writerow(val)
+plt.figure("cf_3")
+for col_name in cf_3.dtype.names:
+    plt.plot(cf_3[col_name], label=col_name)
+plt.savefig("./img/communication_file_time_data_3", transparent=True)
 
+plt.figure("cf_4")
+for col_name in cf_4.dtype.names:
+    plt.plot(cf_4[col_name], label=col_name)
+plt.savefig("./img/communication_file_time_data_4", transparent=True)
 
-# list to store the values of the rows
-arduino_data = []  # declare a list
+plt.figure("cf_5")
+for col_name in cf_5.dtype.names:
+    plt.plot(cf_5[col_name], label=col_name)
+plt.savefig("./img/communication_file_time_data_5", transparent=True)
 
-# while loop to take
-# inputs from the user
-run = ''
-while run != 'no':
-    # lists to store the user data
-    val = []
-
-    # Taking inputs from the user
-    val1 = input("Enter 1st value:- ")
-
-    # storing current date and time
-    current_date_time = datetime.now()
-
-    # Appending the inputs in a list
-    val.append(current_date_time)
-    val.append(val1)
-
-    # Taking input to add one more row
-    # If user enters 'no' then the will loop will break
-    run = input("Do you want to add one more row? Type Yes or No:- ")
-    run = run.lower()
-
-    # Adding the stored data in rows list
-    arduino_data.append(val)
-
-# Calling function to write in csv file
-write_in_csv(arduino_data)
-
-
-'''
-import pandas as pd
-
-read_file = pd.read_csv(r'communication_file_1.txt')
-read_file.to_csv(r'communication_file_1.csv', index=None)
-'''
+plt.legend()
+plt.show()
